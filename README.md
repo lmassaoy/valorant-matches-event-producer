@@ -29,6 +29,6 @@ You can then execute your native executable with: `./target/valorant-matches-eve
 
 If you want to learn more about building native executables, please consult https://quarkus.io/guides/building-native-image.
 
-docker exec -i -t b65de9c1a93e /bin/bash
+docker exec -i -t 8fc151320d79 /bin/bash
 
 bin/kafka-console-consumer.sh --topic matches --from-beginning --bootstrap-server localhost:9092

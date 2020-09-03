@@ -13,6 +13,8 @@ public class Match {
     private boolean isRanked;
     private int seasonId;
     private Instant startTime;
+    private Instant endTime;
+
 
 
     public Match() {
@@ -28,6 +30,19 @@ public class Match {
         this.isRanked = isRanked;
         this.seasonId = seasonId;
         this.startTime = startTime;
+    }
+
+    public Match(String matchId, Map map, Long gameLengthMillis, Long gameStartMillis, boolean isCompleted, GameMode gameMode, boolean isRanked, int seasonId, Instant startTime, Instant endTime) {
+        this.matchId = matchId;
+        this.map = map;
+        this.gameLengthMillis = gameLengthMillis;
+        this.gameStartMillis = gameStartMillis;
+        this.isCompleted = isCompleted;
+        this.gameMode = gameMode;
+        this.isRanked = isRanked;
+        this.seasonId = seasonId;
+        this.startTime = startTime;
+        this.endTime = endTime;
     }
 
     public String getMatchId() {
@@ -110,6 +125,14 @@ public class Match {
         this.startTime = startTime;
     }
 
+    public Instant getEndTime() {
+        return this.endTime;
+    }
+
+    public void setEndTime(Instant endTime) {
+        this.endTime = endTime;
+    }
+
     public Match matchId(String matchId) {
         this.matchId = matchId;
         return this;
@@ -155,6 +178,11 @@ public class Match {
         return this;
     }
 
+    public Match endTime(Instant endTime) {
+        this.endTime = endTime;
+        return this;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == this)
@@ -163,12 +191,12 @@ public class Match {
             return false;
         }
         Match match = (Match) o;
-        return Objects.equals(matchId, match.matchId) && Objects.equals(map, match.map) && Objects.equals(gameLengthMillis, match.gameLengthMillis) && Objects.equals(gameStartMillis, match.gameStartMillis) && isCompleted == match.isCompleted && Objects.equals(gameMode, match.gameMode) && isRanked == match.isRanked && seasonId == match.seasonId && Objects.equals(startTime, match.startTime);
+        return Objects.equals(matchId, match.matchId) && Objects.equals(map, match.map) && Objects.equals(gameLengthMillis, match.gameLengthMillis) && Objects.equals(gameStartMillis, match.gameStartMillis) && isCompleted == match.isCompleted && Objects.equals(gameMode, match.gameMode) && isRanked == match.isRanked && seasonId == match.seasonId && Objects.equals(startTime, match.startTime) && Objects.equals(endTime, match.endTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(matchId, map, gameLengthMillis, gameStartMillis, isCompleted, gameMode, isRanked, seasonId, startTime);
+        return Objects.hash(matchId, map, gameLengthMillis, gameStartMillis, isCompleted, gameMode, isRanked, seasonId, startTime, endTime);
     }
 
     @Override
@@ -183,7 +211,39 @@ public class Match {
             ", isRanked='" + isIsRanked() + "'" +
             ", seasonId='" + getSeasonId() + "'" +
             ", startTime='" + getStartTime() + "'" +
+            ", endTime='" + getEndTime() + "'" +
             "}";
+    }
+    
+
+    public String toJson() {
+        return "{" +
+        " \"matchId\": \"" + getMatchId() + "\"," +
+        " \"mapId\": " + getMap().getMapId() + "," +
+        " \"gameLengthMillis\": " + String.valueOf(getGameLengthMillis()) + "," +
+        " \"gameStartMillis\": " + String.valueOf(getGameStartMillis()) + "," +
+        " \"isCompleted\": " + isIsCompleted() + "," +
+        " \"gameModeId\": " + getGameMode().getGameModeId() + "," +
+        " \"isRanked\": " + isIsRanked() + "," +
+        " \"seasonId\": " + getSeasonId() + "," +
+        " \"startTime\": \"" + getStartTime() + "\"," +
+        " \"endTime\": \"" + getEndTime() + "\"" +
+        " }";
+    }
+
+    public String toJsonDetailed() {
+        return "{" +
+        " \"matchId\": \"" + getMatchId() + "\"," +
+        " \"map\": " + getMap().toJson() + "," +
+        " \"gameLengthMillis\": " + String.valueOf(getGameLengthMillis()) + "," +
+        " \"gameStartMillis\": " + String.valueOf(getGameStartMillis()) + "," +
+        " \"isCompleted\": " + isIsCompleted() + "," +
+        " \"gameMode\": " + getGameMode().toJson() + "," +
+        " \"isRanked\": " + isIsRanked() + "," +
+        " \"seasonId\": " + getSeasonId() + "," +
+        " \"startTime\": \"" + getStartTime() + "\"," +
+        " \"endTime\": \"" + getEndTime() + "\"" +
+        " }";
     }
 
 }

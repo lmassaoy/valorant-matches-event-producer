@@ -65,4 +65,11 @@ public class Map {
             "}";
     }
 
+    public String toJson() {
+        return "{" +
+            " \"mapId\": " + getMapId() + "," +
+            " \"mapName\": \"" + getMapName() + "\"" +
+            " }";
+    }
+
 }

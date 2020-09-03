@@ -1,86 +1,70 @@
 package blog.tech.lyamada;
 
-import blog.tech.lyamada.domain.Agent;
+import blog.tech.lyamada.domain.Event;
+// import blog.tech.lyamada.domain.Agent;
 import blog.tech.lyamada.domain.GameMode;
 import blog.tech.lyamada.domain.Match;
+import blog.tech.lyamada.domain.Team;
+import blog.tech.lyamada.domain.calculation.PercentageTier;
 import blog.tech.lyamada.domain.Map;
+import blog.tech.lyamada.domain.Player;
+import blog.tech.lyamada.utils.CalculationHelper;
 import blog.tech.lyamada.utils.ConstantDimension;
+import blog.tech.lyamada.utils.EventHelper;
+import blog.tech.lyamada.utils.PlayerHelper;
 import io.reactivex.Flowable;
 import io.smallrye.reactive.messaging.kafka.KafkaRecord;
 import org.eclipse.microprofile.reactive.messaging.Outgoing;
 
 import java.util.concurrent.TimeUnit;
-import java.time.Instant;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.util.*;
-import java.util.stream.Collectors;
+// import java.util.stream.Collectors;
 
 
 @ApplicationScoped
 public class EventGenerator {
 
-
+        private int startEventId = 1;
         private Random random = new Random();
 
-        private List<Agent> agents = ConstantDimension.getAgents();
+        // private List<Agent> agents = ConstantDimension.getAgents();
         private List<Map> maps = ConstantDimension.getMaps();
         private List<GameMode> gameModes = ConstantDimension.getGameModes();
-
+        private List<PercentageTier> percentageTable = ConstantDimension.getCompetitiveTiers();
+        private List<Player> rawPlayers = PlayerHelper.generateRawPlayersList(77,percentageTable);
+        
         @Outgoing("matches")
         public Flowable<KafkaRecord<Integer, String>> generateMatches() {
-                return Flowable.interval(1000, TimeUnit.MILLISECONDS)    
+                return Flowable.interval(10000, TimeUnit.MILLISECONDS)    
                         .onBackpressureDrop()
                         .map(tick -> {
-                                Map map = maps.get(random.nextInt(maps.size()));
-                                GameMode gameMode = gameModes.get(random.nextInt(gameModes.size()));
-                                boolean isRanked = false;
-                                if (gameMode.getGameModeId() == 1) {
-                                        isRanked = random.nextBoolean();
+                                for (Player player : rawPlayers) {
+                                        System.out.println(player.toJson());
                                 }
 
-                                Match match = new Match(
-                                        String.valueOf(random.nextInt(1000000)),
-                                        map,
-                                        Long.valueOf(String.valueOf(random.nextInt(1000000))),
-                                        Long.valueOf(String.valueOf(random.nextInt(1000000))),
-                                        true,
-                                        gameMode,
-                                        isRanked,
-                                        2,
-                                        Instant.now()
-                                );
+                                Map map = maps.get(random.nextInt(maps.size()));
 
-                                return KafkaRecord.of(match.hashCode(),match.toString());
+                                GameMode gameMode = gameModes.get(CalculationHelper.calculateGameMode());
+
+                                List<Team> teams = EventHelper.generateTeams(gameMode);
+
+                                List<Player> players = new ArrayList<Player>();
+
+                                Boolean isRanked = CalculationHelper.calculateRanked(gameMode);
+
+                                Long matchDuration = CalculationHelper.calculateMatchTime(teams.get(0).getRoundsPlayed());
+
+                                Match matchInfo = EventHelper.generateMatchInfo(startEventId,map,matchDuration,gameMode,isRanked);
+
+                                Event event = new Event(matchInfo,teams,players);
+
+                                startEventId++;
+
+                                return KafkaRecord.of(event.hashCode(),event.toJson());
                         });
         }
         
-
-        // @Outgoing("matches_a")
-        // public Flowable<KafkaRecord<Integer, String>> matchesGenerationA() {
-        // List<KafkaRecord<Integer, String>> matchesAsJson = matches.stream()
-        //         .map(s -> KafkaRecord.of(
-        //                 s.getId(),
-        //                 "{ \"id\" : " + s.getId() +
-        //                 ", \"counter\" : \"" + s.getCountry() + "\" " +
-        //                 ", \"type\" : \"" + s.getType() + "\" }"))
-        //         .collect(Collectors.toList());
-
-        // return Flowable.fromIterable(matchesAsJson);
-        // };
-
-        // @Outgoing("matches_b")                             
-        // public Flowable<KafkaRecord<Integer, String>> killsGenerationB() {
-
-        // return Flowable.interval(50, TimeUnit.MILLISECONDS)    
-        //         .onBackpressureDrop()
-        //         .map(tick -> {
-        //                 Match match = matches.get(random.nextInt(matches.size()));
-        //                 String killer = agents.get(random.nextInt(agents.size())).getName();
-        //                 String killed = agents.get(random.nextInt(agents.size())).getName();
-
-        //                 return KafkaRecord.of(match.getId(), Instant.now() + ";" + match.getId() + ";" + killer + ";" + killed);
-        //         });
-        // }
 
 }

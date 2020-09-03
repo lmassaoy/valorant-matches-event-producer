@@ -64,5 +64,12 @@ public class GameMode {
             ", gameModeName='" + getGameModeName() + "'" +
             "}";
     }
+
+    public String toJson() {
+        return "{" +
+            " \"gameModeId\": " + getGameModeId() + "," +
+            " \"gameModeName\": \"" + getGameModeName() + "\"" +
+            " }";
+    }
     
 }
