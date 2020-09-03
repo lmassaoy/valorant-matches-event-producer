@@ -84,15 +84,14 @@ public class Event {
     }
 
     public String teamsToString() {
-        List<Team> teamList = getTeams();
-        int listSize = teamList.size();
+        int listSize = getTeams().size();
         int loopCounter = 0;
         
         String teams = "";
         teams = teams + "[";
 
         while (loopCounter < listSize) {
-            String team = teamList.get(loopCounter).toJson();
+            String team = getTeams().get(loopCounter).toJson();
             teams = teams + team;
             if (loopCounter+1 < listSize) {
                 teams = teams + ",";
@@ -104,9 +103,24 @@ public class Event {
         return teams;
     }
 
-    // TODO
     public String playersToString() {
-        return "[]";
+        int listSize = getPlayers().size();
+        int loopCounter = 0;
+
+        String players = "";
+        players = players + "[";
+
+        while (loopCounter < listSize) {
+            String player = getPlayers().get(loopCounter).toJson();
+            players = players + player;
+            if (loopCounter+1 < listSize) {
+                players = players + ",";
+            }
+            loopCounter++;
+        }
+
+        players = players + "]";
+        return players;
     }
 
     public String toJson() {

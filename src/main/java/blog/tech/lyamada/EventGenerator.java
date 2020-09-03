@@ -33,16 +33,13 @@ public class EventGenerator {
         private List<Map> maps = ConstantDimension.getMaps();
         private List<GameMode> gameModes = ConstantDimension.getGameModes();
         private List<PercentageTier> percentageTable = ConstantDimension.getCompetitiveTiers();
-        private List<Player> rawPlayers = PlayerHelper.generateRawPlayersList(77,percentageTable);
+        private List<Player> rawPlayers = PlayerHelper.generateRawPlayersList(200,percentageTable);
         
         @Outgoing("matches")
         public Flowable<KafkaRecord<Integer, String>> generateMatches() {
-                return Flowable.interval(10000, TimeUnit.MILLISECONDS)    
+                return Flowable.interval(200, TimeUnit.MILLISECONDS)    
                         .onBackpressureDrop()
                         .map(tick -> {
-                                for (Player player : rawPlayers) {
-                                        System.out.println(player.toJson());
-                                }
 
                                 Map map = maps.get(random.nextInt(maps.size()));
 
@@ -50,7 +47,7 @@ public class EventGenerator {
 
                                 List<Team> teams = EventHelper.generateTeams(gameMode);
 
-                                List<Player> players = new ArrayList<Player>();
+                                List<Player> players = PlayerHelper.generateMatchPlayers(rawPlayers);
 
                                 Boolean isRanked = CalculationHelper.calculateRanked(gameMode);
 

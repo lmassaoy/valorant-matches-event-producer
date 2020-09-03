@@ -146,7 +146,7 @@ public class Player {
             " \"teamId\": \"" + getTeamId() + "\"," +
             " \"partyId\": \"" + getPartyId() + "\"," +
             " \"characterId\": \"" + getCharacterId() + "\"," +
-            " \"agent\": " + "getAgent().toJson()" + "," +
+            " \"agent\": " + getAgent().toJson() + "," +
             " \"competitiveTier\": " + getCompetitiveTier() + 
             " }";
     }
