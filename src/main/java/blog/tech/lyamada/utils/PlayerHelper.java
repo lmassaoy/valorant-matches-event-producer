@@ -8,7 +8,7 @@ import com.github.javafaker.Faker;
 
 import blog.tech.lyamada.domain.Agent;
 import blog.tech.lyamada.domain.Player;
-import blog.tech.lyamada.domain.calculation.PercentageTier;
+import blog.tech.lyamada.domain.PercentageTier;
 
 public class PlayerHelper {
     private static Random random = new Random();
@@ -39,6 +39,9 @@ public class PlayerHelper {
     }
 
     public static List<Player> generateMatchPlayers(List<Player> rawPlayers) {
+        // TODO
+        // Logic to put players of similar competitionTier in the teams
+
         List<Player> players = new ArrayList<Player>();
         List<Player> playersPool = new ArrayList<Player>();
         List<Player> redPlayers = new ArrayList<Player>();

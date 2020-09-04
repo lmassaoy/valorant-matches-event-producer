@@ -2,11 +2,9 @@
 
 An application built in Java using Quarkus as its core, to handle the production of events to Apache Kafka topics with high performance, about fake Valorant matches for future use in data pipelines.
 
-[![CoverValorant.png](https://cdn1.dotesports.com/wp-content/uploads/2020/05/04064300/valorant1-1-1.jpg)](https://cdn1.dotesports.com/wp-content/uploads/2020/05/04064300/valorant1-1-1.jpg)
+[![CoverValorant](https://www.esquireme.com/public/styles/full_img/public/images/2020/06/02/valorant-live.jpg)](https://www.esquireme.com/public/styles/full_img/public/images/2020/06/02/valorant-live.jpg)
 
-We emulate the response body of Riot's API "[VAL-MATCH-V1](https://developer.riotgames.com/apis#val-match-v1)", trying to be as loyal as possible.
-
-[![Screen-Shot-2020-09-04-at-00-12-50.png](https://i.postimg.cc/YqX8hBc0/Screen-Shot-2020-09-04-at-00-12-50.png)](https://postimg.cc/hfdV5wtR)
+The project emulates the response body of Riot's API "[VAL-MATCH-V1](https://developer.riotgames.com/apis#val-match-v1)", trying to be as loyal as possible.
 
 This API's responses contain data of a match such as:
 - Match Info
@@ -29,29 +27,66 @@ These data are:
 
 There's also the intention of including more elements such as weapons, skins, sprays, etc. But first, we need to attempt the attribute above.
 
-So far, we're already good-to-go to generate massive streaming of events with a lot of information. We ensure you we spent a real good time creating the algorithms to replicate a real Valorant match, respecting logic and probabilities. Although, we believe we'll still need to refine some logic to grant this application a reliable capability to emulate real matches at some point of the future. 
+So far, we're already good-to-go to generate massive streaming of events with a lot of information. We ensure you we spent a real good time creating the algorithms to replicate a real Valorant match, respecting logic and probabilities. Although, we believe we'll still need to refine some logic to grant this application a reliable capability to emulate real matches at some point of the future.
 
-## architecture
+![JettRunning.gif](https://66.media.tumblr.com/05722bb562580a4be1be732c6b2a94a8/3919c42ae463b51c-16/s500x750/6895639fd68c7f69d861fc3e189851b9f1adf93f.gif)
+
+
+# Why Valorant?
+
+## But first, WHAT is Valorant?
+
+In Riot's words:
+
+*"[VALORANT](https://playvalorant.com/en-us/) is your global competitive stage. It’s a 5v5 tac-shooter matchup to plant or defuse the Spike in a one-life-per-round, first to 13 series. More than guns and bullets, you’ll choose an Agent armed with adaptive, swift, and lethal abilities that create opportunities to let your gunplay shine."*
+
+The e-Sport world already sees Valorant as a powerful game bringing players from everywhere to join embrace the FPS (First Person Shooter) game style.
+
+The game is new (released in July, 2nd 2020), but already offers a ton of things to digest. At the current moment (September 2020) the game counts with 12 [agents](https://playvalorant.com/en-us/agents/) in 4 roles (DUELIST, SENTINEL, CONTROLLER, and INITIATOR), each agent ready to use 4 different abilities (1 of them is an **ultimate**). Also has 18 [weapons](https://playvalorant.com/en-us/arsenal/) (counting with the knife),  4 competitive [maps](https://playvalorant.com/en-us/maps/), 3 game modes (Standard, Spike Rush (quick game) and DeathMatch (quicker game)), and an amazing practice mode to sharpen your aim.
+
+It's a very interesting game to play, even if you aren't experienced with FPS games. Do I have your attention? So check this amazing [videoclip](https://vimeo.com/423747596) of the game (made by a [very skilled Brazilian studio](https://estudiohisteria.com/) named as "Histeria"). 100% happiness granted after watching it. Believe in me.
+
+If you have a Windows PC at your disposal, bring it on! **DEFY THE LIMITS**.
+
+[![jett-vs-phoenix-2.gif](https://i.postimg.cc/x1hKtSLq/jett-vs-phoenix-2.gif)](https://postimg.cc/9DPRQK8j)
+
+## OK, now the reason:
+
+Riot offers us some [APIs](https://developer.riotgames.com/apis) related to its games.
+
+[![Screen-Shot-2020-09-04-at-00-12-50.png](https://i.postimg.cc/YqX8hBc0/Screen-Shot-2020-09-04-at-00-12-50.png)](https://postimg.cc/hfdV5wtR)
+
+But because of Valorant is so recent, its API has limited access, needing to be allowed by the game producer to consume the service.
+
+As you might be thinking, we **didn't receive** a developer key to use the API :(
+
+Still, I'm deeply in love with the game (playing almost every night for a couple of hours) and I want to build some analytics using Valorant as the theme.
+
+While we still can't lay our hands over the official API, why not build an application to generate a lot of events related to Valoran't matches by ourselves?
+
+I believe this may help a lot of another players'n'developers to evolve their projects using something they really enjoy :)
+
+# Architecture
 
 [![Modern-Data-Lake-Event-Producer-1.png](https://i.postimg.cc/7Y4DXNSy/Modern-Data-Lake-Event-Producer-1.png)](https://postimg.cc/t7BL4Wrr)
 
 | Component | Status |
 | ------ | ------ |
-| Producer Application | Under Construction |
+| Producer Application | QA - Tests being made |
 | Kafka Broker | Done (Docker Compose Script) |
 | Prometheus | TODO |
 | Grafana | TODO |
 
 *This application is a part of a complete **modern data lake | data warehouse project**, being extremely important because it's the source of the most part of the events we plan to handle in the data engineering and data science tasks. You can see the whole plan [here]()*
 
-## reading events from Kafka
+# Reading events from Kafka
 
 ```
 $ docker exec -i -t <containder_id> /bin/bash
 $ [kafka@8fc151320d79 kafka]$ bin/kafka-console-consumer.sh --topic matches --from-beginning --bootstrap-server localhost:9092
 ```
 
-## message sample
+# Message sample
 
 This is what you gonna see when you start the kafka-console-consumer.sh or consume the event with any application.
 

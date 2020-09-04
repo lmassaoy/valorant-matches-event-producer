@@ -7,7 +7,7 @@ public class Team {
     private boolean won;
     private int roundsPlayed;
     private int roundsWon;
-    private int numPoints; // Team points scored. Number of kills in deathmatch.
+    private int numPoints; //   Team points scored. Number of kills in deathmatch.
 
 
     public Team() {

@@ -1,4 +1,4 @@
-package blog.tech.lyamada.domain.calculation;
+package blog.tech.lyamada.domain;
 
 import java.util.Objects;
 

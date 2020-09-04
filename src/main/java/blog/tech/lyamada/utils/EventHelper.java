@@ -7,6 +7,8 @@ import blog.tech.lyamada.domain.GameMode;
 import blog.tech.lyamada.domain.Team;
 import blog.tech.lyamada.domain.Map;
 import blog.tech.lyamada.domain.Match;
+import blog.tech.lyamada.domain.Player;
+import blog.tech.lyamada.domain.RoundResult;
 
 public class EventHelper {
         private static Random random = new Random();
@@ -56,6 +58,8 @@ public class EventHelper {
                         teams.add(blueTeam);
                         teams.add(redTeam);
                 } else {
+                        // TODO
+                        // Deathmatch still needs improvements about the logic as the teams are the players themselves
                         int loopCounter = 1;
                         int wonPlayer = random.nextInt(10);
                         Boolean won = null;
@@ -88,6 +92,20 @@ public class EventHelper {
                         Instant.now().minusMillis(matchDuration),
                         Instant.now()
                 );
+        }
+
+        public static List<RoundResult> generateRoundResults(GameMode gameMode, List<Team> teams, List<Player> players, Match matchInfo) {
+                List<RoundResult> roundResults = new ArrayList<RoundResult>();
+                if (gameMode.getGameModeId() == 3) {
+                        // TODO
+                        // Deathmatch still needs improvements to generate correctly. So far we're using a static RoundResult
+                        RoundResult roundResult = new RoundResult(1,"CLUTCH","Match Point","Red","Blue","Blue","1234","5678",100000,10050,"A","1");
+                        roundResults.add(roundResult);
+                } else {
+                        roundResults.addAll(RoundResultHelper.generateRoundResults(teams, players, matchInfo));
+                }
+
+                return roundResults;
         }
 
 }
