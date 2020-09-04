@@ -1,13 +1,12 @@
 package blog.tech.lyamada;
 
 import blog.tech.lyamada.domain.Event;
-// import blog.tech.lyamada.domain.Agent;
 import blog.tech.lyamada.domain.GameMode;
 import blog.tech.lyamada.domain.Match;
 import blog.tech.lyamada.domain.Team;
-import blog.tech.lyamada.domain.calculation.PercentageTier;
 import blog.tech.lyamada.domain.Map;
 import blog.tech.lyamada.domain.Player;
+import blog.tech.lyamada.domain.RoundResult;
 import blog.tech.lyamada.utils.CalculationHelper;
 import blog.tech.lyamada.utils.ConstantDimension;
 import blog.tech.lyamada.utils.EventHelper;
@@ -20,7 +19,6 @@ import java.util.concurrent.TimeUnit;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.util.*;
-// import java.util.stream.Collectors;
 
 
 @ApplicationScoped
@@ -28,19 +26,15 @@ public class EventGenerator {
 
         private int startEventId = 1;
         private Random random = new Random();
-
-        // private List<Agent> agents = ConstantDimension.getAgents();
         private List<Map> maps = ConstantDimension.getMaps();
         private List<GameMode> gameModes = ConstantDimension.getGameModes();
-        private List<PercentageTier> percentageTable = ConstantDimension.getCompetitiveTiers();
-        private List<Player> rawPlayers = PlayerHelper.generateRawPlayersList(200,percentageTable);
+        private List<Player> rawPlayers = PlayerHelper.generateRawPlayersList(200,ConstantDimension.getCompetitiveTiers());
         
         @Outgoing("matches")
         public Flowable<KafkaRecord<Integer, String>> generateMatches() {
-                return Flowable.interval(200, TimeUnit.MILLISECONDS)    
+                return Flowable.interval(100, TimeUnit.MILLISECONDS)    
                         .onBackpressureDrop()
                         .map(tick -> {
-
                                 Map map = maps.get(random.nextInt(maps.size()));
 
                                 GameMode gameMode = gameModes.get(CalculationHelper.calculateGameMode());
@@ -55,7 +49,9 @@ public class EventGenerator {
 
                                 Match matchInfo = EventHelper.generateMatchInfo(startEventId,map,matchDuration,gameMode,isRanked);
 
-                                Event event = new Event(matchInfo,teams,players);
+                                List<RoundResult> roundResults = EventHelper.generateRoundResults(gameMode, teams, players, matchInfo);
+
+                                Event event = new Event(matchInfo,teams,players,roundResults);
 
                                 startEventId++;
 

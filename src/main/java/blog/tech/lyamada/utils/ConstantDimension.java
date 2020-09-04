@@ -3,7 +3,8 @@ package blog.tech.lyamada.utils;
 import blog.tech.lyamada.domain.Agent;
 import blog.tech.lyamada.domain.GameMode;
 import blog.tech.lyamada.domain.Map;
-import blog.tech.lyamada.domain.calculation.PercentageTier;
+import blog.tech.lyamada.domain.RoundResultType;
+import blog.tech.lyamada.domain.PercentageTier;
 
 import java.util.*;
 
@@ -31,10 +32,10 @@ public class ConstantDimension {
 	public static List<Map> getMaps() {
         return Collections.unmodifiableList(
             Arrays.asList(
-                new Map(1, "Ascent"),
-                new Map(2, "Split"),
-                new Map(3, "Bind"),
-                new Map(4, "Haven")
+                new Map(1, "Ascent", Arrays.asList("A","B")),
+                new Map(2, "Split", Arrays.asList("A","B")),
+                new Map(3, "Bind", Arrays.asList("A","B")),
+                new Map(4, "Haven", Arrays.asList("A","B","C"))
             )
         );
     }
@@ -76,6 +77,18 @@ public class ConstantDimension {
                 new PercentageTier(99.0,100.0,22,"Valorant")
             )
         );
+    }
+
+    public static List<RoundResultType> getRoundResultTypes() {
+        return Collections.unmodifiableList(
+            Arrays.asList(
+                new RoundResultType(1,"Flawless",85.0,95.5), // 10.5% - is when no one on the winning team died.
+                new RoundResultType(2,"Clutch",60.0,85.0), // 25% - is when the last player alive wins the round.
+                new RoundResultType(3,"Thrifty",0.0,20.0), // 20% - is when the team won the round spending less credits than the enemy team (this is special, ony works for gameMode=Standard)
+                new RoundResultType(4,"Ace",95.5,99.5), // 4% - is when one player kills all enemy players.
+                new RoundResultType(5,"Team Ace",99.5,100.0), // .5% - is when each player on the winning team gets no more than one kill.
+                new RoundResultType(6,"Normal",0.0,60.0) // 60%
+            ));
     }
 
 }

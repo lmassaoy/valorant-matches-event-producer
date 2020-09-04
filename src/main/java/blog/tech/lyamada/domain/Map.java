@@ -1,18 +1,21 @@
 package blog.tech.lyamada.domain;
 
+import java.util.List;
 import java.util.Objects;
 
 public class Map {
     private int mapId;
     private String mapName;
+    private List<String> bombSites;
 
 
     public Map() {
     }
 
-    public Map(int mapId, String mapName) {
+    public Map(int mapId, String mapName, List<String> bombSites) {
         this.mapId = mapId;
         this.mapName = mapName;
+        this.bombSites = bombSites;
     }
 
     public int getMapId() {
@@ -31,6 +34,14 @@ public class Map {
         this.mapName = mapName;
     }
 
+    public List<String> getBombSites() {
+        return this.bombSites;
+    }
+
+    public void setBombSites(List<String> bombSites) {
+        this.bombSites = bombSites;
+    }
+
     public Map mapId(int mapId) {
         this.mapId = mapId;
         return this;
@@ -38,6 +49,11 @@ public class Map {
 
     public Map mapName(String mapName) {
         this.mapName = mapName;
+        return this;
+    }
+
+    public Map bombSites(List<String> bombSites) {
+        this.bombSites = bombSites;
         return this;
     }
 
@@ -49,12 +65,12 @@ public class Map {
             return false;
         }
         Map map = (Map) o;
-        return mapId == map.mapId && Objects.equals(mapName, map.mapName);
+        return mapId == map.mapId && Objects.equals(mapName, map.mapName) && Objects.equals(bombSites, map.bombSites);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(mapId, mapName);
+        return Objects.hash(mapId, mapName, bombSites);
     }
 
     @Override
@@ -62,13 +78,35 @@ public class Map {
         return "{" +
             " mapId='" + getMapId() + "'" +
             ", mapName='" + getMapName() + "'" +
+            ", bombSites='" + getBombSites() + "'" +
             "}";
+    }
+
+    public String bombSitesToString() {
+        int listSize = getBombSites().size();
+        int loopCounter = 0;
+
+        String bombSites = "";
+        bombSites = bombSites + "[";
+
+        while (loopCounter < listSize) {
+            String bombSite = "\"" + getBombSites().get(loopCounter) + "\"";
+            bombSites = bombSites + bombSite;
+            if (loopCounter+1 < listSize) {
+                bombSites = bombSites + ",";
+            }
+            loopCounter++;
+        }
+
+        bombSites = bombSites + "]";
+        return bombSites;
     }
 
     public String toJson() {
         return "{" +
             " \"mapId\": " + getMapId() + "," +
-            " \"mapName\": \"" + getMapName() + "\"" +
+            " \"mapName\": \"" + getMapName() + "\"," +
+            " \"bombSites\": " + bombSitesToString() +
             " }";
     }
 

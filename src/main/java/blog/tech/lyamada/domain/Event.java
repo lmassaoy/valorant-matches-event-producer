@@ -8,15 +8,17 @@ public class Event {
     private Match matchInfo;
     private List<Team> teams;
     private List<Player> players;
+    private List<RoundResult> roundResults;
 
 
     public Event() {
     }
 
-    public Event(Match matchInfo, List<Team> teams, List<Player> players) {
+    public Event(Match matchInfo, List<Team> teams, List<Player> players, List<RoundResult> roundResults) {
         this.matchInfo = matchInfo;
         this.teams = teams;
         this.players = players;
+        this.roundResults = roundResults;
     }
 
     public Match getMatchInfo() {
@@ -43,6 +45,14 @@ public class Event {
         this.players = players;
     }
 
+    public List<RoundResult> getRoundResults() {
+        return this.roundResults;
+    }
+
+    public void setRoundResults(List<RoundResult> roundResults) {
+        this.roundResults = roundResults;
+    }
+
     public Event matchInfo(Match matchInfo) {
         this.matchInfo = matchInfo;
         return this;
@@ -58,6 +68,11 @@ public class Event {
         return this;
     }
 
+    public Event roundResults(List<RoundResult> roundResults) {
+        this.roundResults = roundResults;
+        return this;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == this)
@@ -66,12 +81,12 @@ public class Event {
             return false;
         }
         Event event = (Event) o;
-        return Objects.equals(matchInfo, event.matchInfo) && Objects.equals(teams, event.teams) && Objects.equals(players, event.players);
+        return Objects.equals(matchInfo, event.matchInfo) && Objects.equals(teams, event.teams) && Objects.equals(players, event.players) && Objects.equals(roundResults, event.roundResults);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(matchInfo, teams, players);
+        return Objects.hash(matchInfo, teams, players, roundResults);
     }
 
     @Override
@@ -80,6 +95,7 @@ public class Event {
             " matchInfo='" + getMatchInfo() + "'" +
             ", teams='" + getTeams() + "'" +
             ", players='" + getPlayers() + "'" +
+            ", roundResults='" + getRoundResults() + "'" +
             "}";
     }
 
@@ -123,13 +139,34 @@ public class Event {
         return players;
     }
 
+    public String roundResultsToString() {
+        int listSize = getRoundResults().size();
+        int loopCounter = 0;
+
+        String roundResults = "";
+        roundResults = roundResults + "[";
+
+        while (loopCounter < listSize) {
+            String roundResult = getRoundResults().get(loopCounter).toJson();
+            roundResults = roundResults + roundResult;
+            if (loopCounter+1 < listSize) {
+                roundResults = roundResults + ",";
+            }
+            loopCounter++;
+        }
+
+        roundResults = roundResults + "]";
+        return roundResults;
+    }
+
     public String toJson() {
         return "{" +
             " \"eventId\": " + hashCode() + "," +
             " \"eventTimestamp\": \"" + Instant.now() + "\"," +
             " \"matchInfo\": " + getMatchInfo().toJsonDetailed() + "," +
             " \"players\": " + playersToString() + "," +
-            " \"teams\": " + teamsToString() +
+            " \"teams\": " + teamsToString() + "," +
+            " \"roundResults\": " + roundResultsToString() +
             " }";
     }
 
