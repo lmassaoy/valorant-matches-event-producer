@@ -2,6 +2,9 @@ package blog.tech.lyamada.domain;
 
 import java.util.Objects;
 
+import io.quarkus.runtime.annotations.RegisterForReflection;
+
+@RegisterForReflection
 public class Agent {
     private int agentId;
     private String agentName;

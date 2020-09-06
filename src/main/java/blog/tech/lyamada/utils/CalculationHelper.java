@@ -7,6 +7,9 @@ import blog.tech.lyamada.domain.GameMode;
 import blog.tech.lyamada.domain.RoundResultType;
 import blog.tech.lyamada.domain.PercentageTier;
 
+import io.quarkus.runtime.annotations.RegisterForReflection;
+
+@RegisterForReflection
 public class CalculationHelper {
     public static Random random = new Random();
 

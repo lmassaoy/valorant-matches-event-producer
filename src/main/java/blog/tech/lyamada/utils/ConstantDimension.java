@@ -8,6 +8,9 @@ import blog.tech.lyamada.domain.PercentageTier;
 
 import java.util.*;
 
+import io.quarkus.runtime.annotations.RegisterForReflection;
+
+@RegisterForReflection
 public class ConstantDimension {
     
     public static List<Agent> getAgents(){
