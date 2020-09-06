@@ -10,6 +10,9 @@ import blog.tech.lyamada.domain.Match;
 import blog.tech.lyamada.domain.Player;
 import blog.tech.lyamada.domain.RoundResult;
 
+import io.quarkus.runtime.annotations.RegisterForReflection;
+
+@RegisterForReflection
 public class EventHelper {
         private static Random random = new Random();
 

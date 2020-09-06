@@ -2,6 +2,9 @@ package blog.tech.lyamada.domain;
 
 import java.util.Objects;
 
+import io.quarkus.runtime.annotations.RegisterForReflection;
+
+@RegisterForReflection
 public class GameMode {
     private int gameModeId;
     private String gameModeName;

@@ -2,7 +2,9 @@ package blog.tech.lyamada.domain;
 
 import java.time.Instant;
 import java.util.Objects;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 
+@RegisterForReflection
 public class Match {
     private String matchId;
     private Map map;

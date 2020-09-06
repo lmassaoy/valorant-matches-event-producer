@@ -1,7 +1,9 @@
 package blog.tech.lyamada.domain;
 
 import java.util.Objects;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 
+@RegisterForReflection
 public class Player {
     private String puuid;
     private String teamId;
