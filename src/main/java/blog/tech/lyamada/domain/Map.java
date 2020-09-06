@@ -2,7 +2,9 @@ package blog.tech.lyamada.domain;
 
 import java.util.List;
 import java.util.Objects;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 
+@RegisterForReflection
 public class Map {
     private int mapId;
     private String mapName;

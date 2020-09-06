@@ -10,12 +10,14 @@ import blog.tech.lyamada.domain.Agent;
 import blog.tech.lyamada.domain.Player;
 import blog.tech.lyamada.domain.PercentageTier;
 
+import io.quarkus.runtime.annotations.RegisterForReflection;
+
+@RegisterForReflection
 public class PlayerHelper {
     private static Random random = new Random();
+    private static Faker faker = new Faker();
 
     public static Player generateRawPlayer(int puuid, int numberOfPlayers, List<PercentageTier> percentageTable) {
-        Faker faker = new Faker();
-
         String characterId = faker.name().firstName() + faker.name().lastName()
                                 + "#" + String.format("%04d",random.nextInt(9999));
         int competitiveTier = CalculationHelper.calculateCompetitiveTier(puuid, numberOfPlayers, percentageTable);
