@@ -4,6 +4,9 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
 
+import io.quarkus.runtime.annotations.RegisterForReflection;
+
+@RegisterForReflection
 public class Event {
     private Match matchInfo;
     private List<Team> teams;

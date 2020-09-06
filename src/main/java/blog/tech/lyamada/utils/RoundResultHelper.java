@@ -10,6 +10,9 @@ import blog.tech.lyamada.domain.RoundResult;
 import blog.tech.lyamada.domain.RoundResultType;
 import blog.tech.lyamada.domain.Team;
 
+import io.quarkus.runtime.annotations.RegisterForReflection;
+
+@RegisterForReflection
 public class RoundResultHelper {
     private static Random random = new Random();
 
